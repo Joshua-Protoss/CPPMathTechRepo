@@ -35,6 +35,34 @@ std::vector<std::complex<double>> dft(std::vector<std::complex<double>> X){
 
 int main()
 {
+    // Create test signal
+    int N = 1000;
+    std::vector<std::complex<double>> signal;
+    signal.reserve(N);
 
+    double sigK = 3.0; // double sigPhase = M_PI/4.0; add phase
+    double sigPhase = 0.0;
+
+    for (int x=0; x<N; ++x)
+    {
+        auto currentSample = std::complex<double>
+            (cos((2*M_PI/static_cast<double>(N)) * sigK
+            * static_cast<double>(x) + sigPhase), 0.0 );
+        signal.push_back(currentSample);
+    }
+
+    // Compute DFT
+    std::vector<std::complex<double>> Fx = dft(signal);
+
+    // Diplay the first six values (real and imaginary components)
+    std::cout << "First 6 samples from the output..." << std::endl;
+    std::cout << "\n" << "k\t" << std::setw(12) << "Real\t" << std::setw(12) << "Imag" << std::endl;
+
+    for (int i=0; i<6; ++i){
+        std::cout << i << "\t" << std::setw(12) << Fx[i].real() / static_cast<double>(N) << "\t"
+            << std::setw(12) << Fx[i].imag() / static_cast<double>(N) 
+            << std::endl;
+    } 
+    return 0;
 
 }
